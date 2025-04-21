@@ -15,5 +15,6 @@
   .heading {
     text-align: center;
     line-height: 1.25;
+    font-weight: 500;
   }
 </style>
