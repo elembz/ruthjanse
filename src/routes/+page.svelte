@@ -1,0 +1,29 @@
+<script lang="ts">
+  import NotionBlockList from '~/components/NotionBlockList.svelte';
+  import type { PageProps } from './$types'
+  import DocumentList from '~/components/DocumentList.svelte';
+
+  const {data}: PageProps = $props()
+</script>
+
+<svelte:head>
+  <title>Ruth Janse</title>
+</svelte:head>
+
+<header>
+  <NotionBlockList blocks={data.description}/>
+</header>
+
+<main>
+  <DocumentList documents={data.documents}/>
+</main>
+
+
+<style>
+  header {
+    max-width: var(--container-width);
+    flex-grow: 1;
+    font-size: 1.25em;
+    padding-bottom: 2em;
+  }
+</style>
