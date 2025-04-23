@@ -1,7 +1,7 @@
-<script lang="ts">
-  import NotionBlockList from '~/components/NotionBlockList.svelte';
+<script lang='ts'>
   import type { PageProps } from './$types'
-  import DocumentList from '~/components/DocumentList.svelte';
+  import NotionBlockList from '~/components/NotionBlockList.svelte'
+  import DocumentList from '~/components/DocumentList.svelte'
 
   const {data}: PageProps = $props()
 </script>

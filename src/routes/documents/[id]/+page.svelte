@@ -1,7 +1,7 @@
-<script lang="ts">
-  import NotionBlock from '~/components/NotionBlock.svelte';
-	import type { PageProps } from './$types'
-  import SiteHeader from '~/components/SiteHeader.svelte';
+<script lang='ts'>
+  import type { PageProps } from './$types'
+  import SiteHeader from '~/components/SiteHeader.svelte'
+  import NotionBlock from '~/components/NotionBlock.svelte'
 
   const {data}: PageProps = $props()
   const document = data.document
@@ -13,32 +13,30 @@
 
 <SiteHeader/>
 
-
 <main>
   <header>
     <h1>{document.title}</h1>
-    <div class="metadata">
+    <div class='metadata'>
       {#if document.year != null}
         <time datetime={document.year.toString()}>
           {document.year}
         </time>
       {/if}
       {#if document.link != null}
-        <a href={document.link.url} target="_blank" rel="noopener noreferrer">
+        <a href={document.link.url} target='_blank' rel='noopener noreferrer'>
           {document.link.description ?? 'Link'}
           </a>
       {/if}
     </div>
   </header>
-  <div class="content">
+  <div class='content'>
     {#if document.blocks}
-      {#each document.blocks as block}
+      {#each document.blocks as block, index (index)}
         <NotionBlock {block} />
       {/each}
     {/if}
   </div>
 </main>
-
 
 <style>
   h1 {

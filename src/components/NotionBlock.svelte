@@ -1,5 +1,5 @@
-<script lang="ts" module>
-  import Heading from './notion-blocks/Heading.svelte';
+<script lang='ts' module>
+  import Heading from './notion-blocks/Heading.svelte'
   import Paragraph from './notion-blocks/Paragraph.svelte'
   import Text from './notion-blocks/Text.svelte'
 
@@ -15,10 +15,8 @@
   }
 </script>
 
-<script lang="ts">
-
+<script lang='ts'>
   const {block} = $props()
-
   const Component = blocks[block.type]
   if (Component == null) {
     console.warn(`No component found for block type: ${block.type}`)

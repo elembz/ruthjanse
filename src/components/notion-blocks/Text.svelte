@@ -1,12 +1,11 @@
-<script lang="ts">
-  const { block } = $props();
-
+<script lang='ts'>
+  const { block } = $props()
   const lines = block.text.content.split('\n')
 </script>
 
 {#snippet text()}
-  {#each lines as line, i}
-    {#if i > 0}
+  {#each lines as line, index (index)}
+    {#if index > 0}
       <br />
     {/if}
     {line}

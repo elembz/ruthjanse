@@ -1,13 +1,12 @@
 <header>
-  <a class="logo" href="/" title="Terug naar de startpagina">
+  <a class='logo' href='/' title='Terug naar de startpagina'>
     Ruth Janse
   </a>
-  <a class="home-button" href="/" title="Terug naar de startpagina">
+  <a class='home-button' href='/' title='Terug naar de startpagina'>
     Terug naar alle teksten
   </a>
 </header>
-
-<div class="placeholder"></div>
+<div class='placeholder'></div>
 
 <style>
   header, .placeholder {

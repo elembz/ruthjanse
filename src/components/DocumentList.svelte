@@ -1,17 +1,15 @@
-<script lang="ts">
-  import type {SerializedDocument} from '~/lib/types';
-
+<script lang='ts'>
+  import type {SerializedDocument} from '~/lib/types'
   const {documents}: {documents: SerializedDocument[]} = $props()
 </script>
 
-{#each documents as document}
+{#each documents as document (document.id)}
   <article>
     <h3>
-      <a href="/documents/{document.id}">
+      <a href={`/documents/${document.id}`}>
         {document.title}
       </a>
     </h3>
-
     {#if document.year}
       <time datetime={document.year.toString()}>
         {document.year}

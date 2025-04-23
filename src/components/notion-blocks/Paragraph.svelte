@@ -1,5 +1,5 @@
-<script lang="ts">
-  import NotionBlockList from '../NotionBlockList.svelte';
+<script lang='ts'>
+  import NotionBlockList from '../NotionBlockList.svelte'
 
   const { block } = $props()
   const blocks = block.paragraph.rich_text
