@@ -1,7 +1,7 @@
 <script lang='ts'>
   import type { PageProps } from './$types'
   import SiteHeader from '~/components/SiteHeader.svelte'
-  import NotionBlock from '~/components/NotionBlock.svelte'
+  import NotionBlockList from '~/components/NotionBlockList.svelte'
 
   const {data}: PageProps = $props()
   const document = data.document
@@ -25,15 +25,13 @@
       {#if document.link != null}
         <a href={document.link.url} target='_blank' rel='noopener noreferrer'>
           {document.link.description ?? 'Link'}
-          </a>
+        </a>
       {/if}
     </div>
   </header>
   <div class='content'>
     {#if document.blocks}
-      {#each document.blocks as block, index (index)}
-        <NotionBlock {block} />
-      {/each}
+      <NotionBlockList blocks={document.blocks}/>
     {/if}
   </div>
 </main>
