@@ -3,16 +3,18 @@ import config from '~/config'
 import notion from './notion'
 import type {DocumentLink, SerializedDocument} from '../types'
 import {notionBlocksToPlainText} from '../util'
+import {Image} from './image'
 
 export class Document {
 
-  public id!:     string | null
+  public id!:     string
   public title?:  string
   public year?:   number
   public link?:   DocumentLink
   public blocks?: any[]
+  public images?: Image[]
 
-  static serializable: Array<keyof Document> = ['id', 'title', 'year', 'link', 'blocks']
+  static serializable: Array<keyof Document> = ['id', 'title', 'year', 'link', 'blocks', 'images']
 
   private constructor(raw: Record<string, unknown>) {
     Object.assign(this, raw)
@@ -23,8 +25,7 @@ export class Document {
       const page      = await notion.pages.retrieve({page_id: id})
       const blocks    = await notion.blocks.children.list({block_id: id})
 
-      const document  = Document.fromNotionPage(page)
-      document.blocks = blocks.results
+      const document  = await Document.fromNotionPage(page, blocks.results)
 
       return document
     } catch (error) {
@@ -43,7 +44,9 @@ export class Document {
         database_id: config.notion.databaseID,
         sorts:       [{property: 'Year', direction: 'descending'}],
       })
-      return pages.results.map(page => Document.fromNotionPage(page))
+      return await Promise.all(
+        pages.results.map(page => Document.fromNotionPage(page)),
+      )
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message)
@@ -59,10 +62,11 @@ export class Document {
     for (const key of Document.serializable) {
       result[key] = this[key]
     }
+    result.images = this.images?.map(({id, width, height}) => ({id, width, height}))
     return result as unknown as SerializedDocument
   }
 
-  static fromNotionPage(notionPage: any): Document {
+  static async fromNotionPage(notionPage: any, blocks?: any[]): Promise<Document> {
     const {id, properties} = notionPage
 
     const title = notionBlocksToPlainText(properties['Name'].title)
@@ -72,8 +76,14 @@ export class Document {
     const link = url == null ? undefined : {
       url: url,
       description: linkDescription === '' ? undefined : linkDescription,
-
     }
-    return new Document({id, title, year, link})
+
+    const imageBlocks = blocks?.filter(it => it.type === 'image')
+    const images      = imageBlocks == null ? undefined : await Promise.all(
+      imageBlocks?.map(block => Image.fromNotionBlock(block))
+    )
+
+    return new Document({id, title, year, link, blocks, images})
   }
+
 }

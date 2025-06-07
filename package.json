@@ -28,6 +28,9 @@
 		"vite": "^6.2.5"
 	},
 	"dependencies": {
-		"@notionhq/client": "^2.3.0"
+		"@notionhq/client": "^2.3.0",
+		"fs": "^0.0.1-security",
+		"path": "^0.12.7",
+		"sharp": "^0.34.2"
 	}
 }

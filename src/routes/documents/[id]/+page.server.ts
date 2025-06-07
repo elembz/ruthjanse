@@ -7,5 +7,5 @@ export const load: PageServerLoad = async ({ params }) => {
   if (document == null) {
     error(404)
   }
-  return {document: document?.serialize()}
+  return {document: document.serialize()}
 }
