@@ -1,11 +1,13 @@
 <script lang='ts' module>
   import Heading from './notion-blocks/Heading.svelte'
+  import Image from './notion-blocks/Image.svelte';
   import Paragraph from './notion-blocks/Paragraph.svelte'
   import Text from './notion-blocks/Text.svelte'
 
   const blocks: Record<string,any> = {
     paragraph: Paragraph,
     text:      Text,
+    image:     Image,
     heading_1: Heading,
     Heading2:  Heading,
     heading_3: Heading,

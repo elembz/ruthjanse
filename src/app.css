@@ -42,7 +42,7 @@ body {
   }
 }
 
-p {
+p, img {
   margin-top: 1.2rem;
   margin-bottom: 0;
 }

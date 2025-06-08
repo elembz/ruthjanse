@@ -2,9 +2,13 @@
   import type { PageProps } from './$types'
   import SiteHeader from '~/components/SiteHeader.svelte'
   import NotionBlockList from '~/components/NotionBlockList.svelte'
+  import {setImages} from '~/lib/image-context'
 
   const {data}: PageProps = $props()
   const document = data.document
+  if (document.images != null) {
+    setImages(document.images)
+  }
 </script>
 
 <svelte:head>

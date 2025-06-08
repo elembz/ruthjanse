@@ -14,8 +14,6 @@ export class Document {
   public blocks?: any[]
   public images?: Image[]
 
-  static serializable: Array<keyof Document> = ['id', 'title', 'year', 'link', 'blocks', 'images']
-
   private constructor(raw: Record<string, unknown>) {
     Object.assign(this, raw)
   }
@@ -57,12 +55,14 @@ export class Document {
     }
   }
 
+  static serializable: Array<keyof Document> = ['id', 'title', 'year', 'link', 'blocks', 'images']
+
   public serialize(): SerializedDocument {
     const result: Record<string, unknown> = {}
     for (const key of Document.serializable) {
       result[key] = this[key]
     }
-    result.images = this.images?.map(({id, width, height}) => ({id, width, height}))
+    result.images = this.images?.map(it => it.serialize())
     return result as unknown as SerializedDocument
   }
 
