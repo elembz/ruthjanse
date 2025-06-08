@@ -5,7 +5,7 @@
   const image  = getImage(block.id)
 </script>
 
-<img src={`/images/${block.id}`} width={image?.width} height={image?.height} alt=''/>
+<img loading='lazy' src={`/images/${block.id}`} width={image?.width} height={image?.height} alt=''/>
 
 <style>
   img {

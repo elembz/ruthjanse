@@ -23,19 +23,21 @@ export class Image {
     const image       = sharp(buffer)
 
     const {width, height} = await image.metadata()
-    const result = new Image({id, width, height, buffer: await image.toBuffer()})
 
-    this.cache.set(id, result)
+    const resized     = image.resize(width < 2000 ? width : 2000).webp({quality: 50})
+    const result = new Image({id, width, height, buffer: await resized.toBuffer()})
+
+    Image.cache.set(id, result)
+    logger.info("Cached image", id)
     return result
   }
 
   static async fromNotionBlock(block: any): Promise<Image> {
     const id = block.id
-    if (this.cache.has(id)) {
+    if (Image.cache.has(id)) {
       logger.info("Resolved cached image", id)
-      return this.cache.get(id)!
+      return Image.cache.get(id)!
     } else {
-      logger.info("Caching image", id)
       return Image.store(id, block.image.file.url)
     }
   }

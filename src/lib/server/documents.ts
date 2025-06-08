@@ -4,6 +4,9 @@ import notion from './notion'
 import type {DocumentLink, SerializedDocument} from '../types'
 import {notionBlocksToPlainText} from '../util'
 import {Image} from './image'
+import {Logger} from './logger'
+
+const logger = new Logger('Document')
 
 export class Document {
 
@@ -18,13 +21,29 @@ export class Document {
     Object.assign(this, raw)
   }
 
+  static cache: Map<string, Document> = new Map()
+
   static async get(id: string): Promise<Document | null> {
+    if (Document.cache.has(id)) {
+      logger.info("Resolved cached document", id)
+
+      // Return the cached version of the document, but fetch it again
+      // so the latest version is returned with the next request.
+      Document.fetch(id)
+      return Document.cache.get(id)!
+    }
+    return Document.fetch(id)
+
+  }
+
+  private static async fetch(id: string): Promise<Document | null> {
     try {
-      const page      = await notion.pages.retrieve({page_id: id})
-      const blocks    = await notion.blocks.children.list({block_id: id})
+      const page   = await notion.pages.retrieve({page_id: id})
+      const blocks = await notion.blocks.children.list({block_id: id})
 
-      const document  = await Document.fromNotionPage(page, blocks.results)
-
+      const document = await Document.fromNotionPage(page, blocks.results)
+      Document.cache.set(id, document)
+      logger.info("Cached document", id)
       return document
     } catch (error) {
       if (error instanceof Error) {
@@ -66,8 +85,8 @@ export class Document {
     return result as unknown as SerializedDocument
   }
 
-  static async fromNotionPage(notionPage: any, blocks?: any[]): Promise<Document> {
-    const {id, properties} = notionPage
+  static async fromNotionPage(page: any, blocks?: any[]): Promise<Document> {
+    const {id, properties} = page
 
     const title = notionBlocksToPlainText(properties['Name'].title)
     const year = properties['Year'].number ?? undefined

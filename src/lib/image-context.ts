@@ -1,4 +1,4 @@
-import { getContext, setContext } from 'svelte';
+import {getContext, setContext} from 'svelte';
 import type {SerializedImage} from './types'
 
 const CONTEXT_KEY = 'image-cache'
