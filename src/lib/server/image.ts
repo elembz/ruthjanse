@@ -23,7 +23,7 @@ export class Image {
     const image       = sharp(buffer)
 
     const {width, height} = await image.metadata()
-    const result = new Image({id, width, height, buffer: image.toBuffer()})
+    const result = new Image({id, width, height, buffer: await image.toBuffer()})
 
     this.cache.set(id, result)
     return result
