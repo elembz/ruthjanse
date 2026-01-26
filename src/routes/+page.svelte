@@ -8,6 +8,7 @@
 
 <svelte:head>
   <title>Ruth Janse</title>
+  <meta name="description" content="Ruth Janse (1998) werkt bij het Leger des Heils, leest, schrijft, moestuiniert en wandelt met ezels om denken en doen in evenwicht te houden." />
 </svelte:head>
 
 <header>

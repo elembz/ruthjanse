@@ -10,4 +10,8 @@ export class Logger {
     console.info(this.prefix, ...message)
   }
 
+  public error(...message: string[]) {
+    console.error(this.prefix, ...message)
+  }
+
 }

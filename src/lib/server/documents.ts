@@ -25,7 +25,7 @@ export class Document {
 
   static async get(id: string): Promise<Document | null> {
     if (Document.cache.has(id)) {
-      logger.info("Resolved cached document", id)
+      logger.info('Resolved cached document', id)
 
       // Return the cached version of the document, but fetch it again
       // so the latest version is returned with the next request.
@@ -43,13 +43,13 @@ export class Document {
 
       const document = await Document.fromNotionPage(page, blocks.results)
       Document.cache.set(id, document)
-      logger.info("Cached document", id)
+      logger.info('Cached document', id)
       return document
     } catch (error) {
       if (error instanceof Error) {
-        console.error(error.message)
+        logger.error('An error occurred while fetching document', id, error.message)
       } else {
-        console.error('An unknown error occurred')
+        logger.error('An unknown error occurred while fetching document', id)
       }
       return null
     }
